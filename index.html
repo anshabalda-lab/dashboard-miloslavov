@@ -22,8 +22,11 @@
   body{margin:0;background:var(--paper);color:var(--ink);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;}
   .wrap{max-width:900px;margin:0 auto;padding:0 20px 80px;}
   .mark{width:10px;height:10px;background:var(--ink);display:inline-block;flex-shrink:0;}
-  header.top{position:sticky;top:0;background:var(--paper);z-index:20;padding:28px 0 16px;border-bottom:1px solid var(--line);}
-  .brand{display:flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mid);margin-bottom:14px;}
+  header.top{position:sticky;top:0;background:var(--paper);z-index:20;padding:28px 0 16px;border-bottom:1px solid var(--line);transition:padding .2s ease;}
+  header.top.compact{padding:12px 0 10px;}
+  header.top.compact .brand{margin-bottom:8px;}
+  header.top.compact h1,header.top.compact .sub{display:none;}
+  .brand{display:flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mid);margin-bottom:14px;transition:margin .2s ease;}
   h1{font-family:'Archivo Black',sans-serif;font-weight:400;font-size:28px;line-height:1.05;margin:0 0 4px;letter-spacing:-0.01em;}
   .sub{font-size:14px;color:var(--mid);margin:0 0 18px;}
   .progress-row{display:flex;align-items:center;gap:14px;}
@@ -76,8 +79,8 @@
 
 <header class="top">
   <div class="brand"><span class="mark"></span> FORM.A dsgn — Дизайн Дом Милославов</div>
-  <h1>Дашборд пожеланий</h1>
-  <p class="sub">Собрано из переписки в группе. Отметьте, что подтверждаете — я использую это как финальную версию.</p>
+  <h1>Пожелания заказчика</h1>
+  <p class="sub">Отметьте, что подтверждаете.</p>
   <div class="progress-row">
     <div class="bar"><div class="bar-fill" id="barFill"></div></div>
     <div class="progress-num" id="progressNum">0 комментариев</div>
@@ -100,7 +103,7 @@
 
 <footer class="export">
   <h2>Сводка для отправки</h2>
-  <p>Собрать все её комментарии в один текст, чтобы отправить Анастасии в чат.</p>
+  <p>Собрать все комментарии в один текст, чтобы отправить в Telegram чат.</p>
   <div class="exp-actions">
     <button class="primary" id="buildExport">Собрать сводку</button>
     <button class="primary" id="copyExport" style="display:none;">Скопировать</button>
@@ -113,6 +116,14 @@
 <div class="lightbox" id="lightbox" onclick="this.classList.remove('open')"><img id="lightboxImg" src=""></div>
 
 <script>
+(function(){
+  const header = document.querySelector('header.top');
+  const onScroll = ()=>{
+    if(window.scrollY > 60){ header.classList.add('compact'); }
+    else { header.classList.remove('compact'); }
+  };
+  window.addEventListener('scroll', onScroll, {passive:true});
+})();
 const DATA = [
 {room:"kitchen", roomTitle:"Кухня", note:"", items:[
  {id:"k1", text:"Планировка: остров с плитой на встроенной вытяжкой. Посудомоечная машина спрятана за фасадами у столешницы.", photoMissing:true},
@@ -188,12 +199,7 @@ const FURNITURE = [
 ];
 
 const REFS = [
- ["https://pin.it/5bBcvUAMr","P1"],["https://pin.it/2lHmjqGoj","P2"],["https://pin.it/66Ka05Y1k","P3"],
- ["https://pin.it/cCSpCL5wU","P4"],["https://pin.it/7v0MNoErK","P5"],["https://pin.it/7MnlzLlyA","P6"],
- ["https://pin.it/7j2WfRial","P7"],["https://pin.it/7sqSOcMXd","P8"],["https://pin.it/69OBuUdJM","P9"],
- ["https://pin.it/1fa4i8gfg","P10"],["https://pin.it/3f73xHkjR","P11"],["https://pin.it/66CmWE3o3","P12"],
- ["https://pin.it/68iQwxUqt","P13"],["https://pin.it/6yp6aWCcW","P14"],["https://pin.it/7r9v9Iyzj","P15"],
- ["https://pin.it/35aWYe4Ix","P16"],["https://pin.it/1UhGI18xn","P17"],["https://pin.it/5esexz2JW","P18"],
+ ["https://pin.it/3fBjQWtvV","Доска Pinterest"],
  ["https://www.instagram.com/reel/DZh_n1BMpQA/","IG1"],["https://www.instagram.com/reel/DaQkrsqNeq4/","IG2"],
  ["https://www.instagram.com/reel/DZqNTaMOxMx/","IG3"],["https://www.instagram.com/reel/DZmf2zWt1R5/","IG4"]
 ].map((r,i)=>({id:"ref"+i,url:r[0],label:r[1]}));
