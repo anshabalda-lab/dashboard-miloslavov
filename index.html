@@ -70,6 +70,7 @@
   .exp-actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
   button.primary{background:var(--ink);color:var(--paper);border:none;font-size:13px;font-weight:600;padding:11px 18px;cursor:pointer;}
   button.primary:hover{opacity:.85;}
+  button.primary:disabled{background:var(--card);color:var(--dim);border:1px solid var(--line);cursor:not-allowed;opacity:1;}
   textarea#exportBox{width:100%;min-height:160px;font-family:'Inter',monospace;font-size:12.5px;padding:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);resize:vertical;}
   .loading{font-size:13px;color:var(--mid);}
 </style>
@@ -106,8 +107,8 @@
   <p>Собрать все комментарии в один текст, чтобы отправить в Telegram чат.</p>
   <div class="exp-actions">
     <button class="primary" id="buildExport">Собрать сводку</button>
-    <button class="primary" id="copyExport" style="display:none;">Скопировать</button>
-    <button class="primary" id="sendExport" style="display:none;">Отправить мне</button>
+    <button class="primary" id="copyExport" disabled>Скопировать</button>
+    <button class="primary" id="sendExport" disabled>Отправить</button>
   </div>
   <textarea id="exportBox" readonly placeholder="Нажмите «Собрать сводку»"></textarea>
   <p id="sendStatus" style="font-size:12.5px;color:var(--mid);margin:10px 0 0;"></p>
@@ -325,8 +326,8 @@ document.getElementById('buildExport').addEventListener('click', ()=>{
   const rcom = REFS.filter(r=>state[r.id] && state[r.id].trim());
   if(rcom.length){ out += 'Референсы:\n'; rcom.forEach(r=>out+='- '+r.label+': '+state[r.id].trim()+'\n'); }
   document.getElementById('exportBox').value = out.trim() || 'Пока нет комментариев.';
-  document.getElementById('copyExport').style.display = 'inline-block';
-  document.getElementById('sendExport').style.display = 'inline-block';
+  document.getElementById('copyExport').disabled = false;
+  document.getElementById('sendExport').disabled = false;
   document.getElementById('sendStatus').textContent = '';
 });
 
